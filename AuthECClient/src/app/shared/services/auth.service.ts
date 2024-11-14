@@ -14,4 +14,8 @@ export class AuthService {
   creatUser(formData:any){
     return this.http.post(this.baseUrl + '/signup',formData)
   }
+
+  signIn(formData:any){
+    return this.http.post(this.baseUrl + '/signin',formData)
+  }
 }

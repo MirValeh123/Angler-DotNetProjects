@@ -6,7 +6,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../shared/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -17,9 +19,14 @@ import { RouterLink } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   form!: FormGroup;
-  isSubmitted:boolean = false;
+  isSubmitted: boolean = false;
 
-  constructor(public formBuilder: FormBuilder) {}
+  constructor(
+    public formBuilder: FormBuilder,
+    private service: AuthService,
+    public router: Router,
+    public toastr: ToastrService
+  ) {}
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       email: ['', Validators.required],
@@ -27,19 +34,30 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  hasDisplayableError(controlName:string)
-  {
+  hasDisplayableError(controlName: string) {
     const control = this.form.get(controlName);
-    return(
-      Boolean(control?.valid) && (this.isSubmitted || Boolean(control?.touched) || Boolean(control?.dirty))
-    )
+    return (
+      Boolean(control?.valid) &&
+      (this.isSubmitted || Boolean(control?.touched) || Boolean(control?.dirty))
+    );
   }
 
-  onSubmit()
-  {
+  onSubmit() {
     this.isSubmitted = true;
     if (this.form.valid) {
-      console.log(this.form)
+      this.service.signIn(this.form.value).subscribe({
+        next: (res: any) => {
+          localStorage.setItem('token', res.token);
+          this.router.navigateByUrl('/dashboard');
+        },
+        error: (err) => {
+          if (err.status == 400) {
+            this.toastr.error('Incorrect email or password', 'Login failed!');
+          } else {
+            console.log('error during login:\n', err);
+          }
+        },
+      });
     }
   }
 }
