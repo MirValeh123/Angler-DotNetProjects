@@ -107,7 +107,7 @@ export class RegistrationComponent implements OnInit {
     const control = this.form.get(controlName);
     return (
       Boolean(control?.invalid) &&
-      (this.isSubmitted || Boolean(control?.touched))
+      (this.isSubmitted || Boolean(control?.touched) || Boolean(control?.dirty))
     );
   }
 }
