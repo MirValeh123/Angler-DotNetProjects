@@ -297,3 +297,4 @@ C:\Users\Acer08\Desktop\Angular-DotNetProjects\AuthECAPI\WebApplication1\obj\Deb
 C:\Users\Acer08\Desktop\Angular-DotNetProjects\AuthECAPI\WebApplication1\obj\Debug\net8.0\ref\WebApplication1.dll
 C:\Users\valeh\OneDrive\Desktop\Angler$DotNetProjects\AuthECAPI\WebApplication1\obj\Debug\net8.0\WebApplication1.sourcelink.json
 C:\Users\valeh\OneDrive\Desktop\Angler$DotNetProjects\AuthECAPI\WebApplication1\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Acer08\Desktop\Angular-DotNetProjects\AuthECAPI\WebApplication1\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
