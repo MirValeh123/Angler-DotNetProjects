@@ -9,6 +9,7 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { TOKEN_KEY } from '../../shared/constants';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +33,10 @@ export class LoginComponent implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required],
     });
+
+    if (this.service.isLoggedIn()) {
+      this.router.navigateByUrl('/dashboard');
+    }
   }
 
   hasDisplayableError(controlName: string) {
@@ -47,7 +52,7 @@ export class LoginComponent implements OnInit {
     if (this.form.valid) {
       this.service.signIn(this.form.value).subscribe({
         next: (res: any) => {
-          localStorage.setItem('token', res.token);
+          this.service.saveToken(res.token);
           this.router.navigateByUrl('/dashboard');
         },
         error: (err) => {

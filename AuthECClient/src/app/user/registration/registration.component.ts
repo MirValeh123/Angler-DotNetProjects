@@ -11,7 +11,7 @@ import {
 import { FirstKeyPipe } from '../../shared/pipes/first-key.pipe';
 import { AuthService } from '../../shared/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -25,7 +25,8 @@ export class RegistrationComponent implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     private service: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
   isSubmitted: boolean = false;
   passwordMatchValidators: ValidatorFn = (control: AbstractControl): null => {
@@ -54,6 +55,9 @@ export class RegistrationComponent implements OnInit {
       },
       { validators: this.passwordMatchValidators }
     );
+    if (this.service.isLoggedIn()) {
+      this.router.navigateByUrl('/dashboard');
+    }
   }
 
   onSubmit() {
@@ -66,7 +70,6 @@ export class RegistrationComponent implements OnInit {
             this.isSubmitted = false;
             this.toastr.success('New user created!', 'Registration Success!');
           }
-          alert(res);
         },
         error: (err) => {
           if (err.error.errors) {
